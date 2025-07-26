@@ -7,7 +7,7 @@
 - Jake Dalton
 - Dominic Gorny
 - Sergey Antonets
-
+- Lachlan Stewart
 
 ## After downloading repository
 After downloading this repository, run "git lfs install"
