@@ -1,12 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using Platformer.Gameplay;
-using static Platformer.Core.Simulation;
-using Platformer.Model;
-using Platformer.Core;
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
 
 namespace Platformer.Mechanics
 {
@@ -14,84 +8,87 @@ namespace Platformer.Mechanics
     /// This is the main class used to implement control of the player.
     /// It is a superset of the AnimationController class, but is inlined to allow for any kind of customisation.
     /// </summary>
-    public class PlayerController : KinematicObject
+    public class PlayerController : MonoBehaviour
     {
-        public AudioClip jumpAudio;
-        public AudioClip respawnAudio;
-        public AudioClip ouchAudio;
-
         public ProjectileBehaviour projectilePrefab;
         public Transform launchOffset;
 
-        /// <summary>
-        /// Max horizontal speed of the player.
-        /// </summary>
-        public float maxSpeed = 7;
-        /// <summary>
-        /// Initial jump velocity at the start of a jump.
-        /// </summary>
-        public float jumpTakeOffSpeed = 7;
-
-        public JumpState jumpState = JumpState.Grounded;
-        private bool stopJump;
-        /*internal new*/ public Collider2D collider2d;
-        /*internal new*/ public AudioSource audioSource;
+        public Collider2D collider2d;
         public Health health;
         public bool controlEnabled = true;
 
-        bool jump;
-        Vector2 move;
         SpriteRenderer spriteRenderer;
-        internal Animator animator;
-        readonly PlatformerModel model = Simulation.GetModel<PlatformerModel>();
-
-        private InputAction m_MoveAction;
-        private InputAction m_JumpAction;
         private InputAction m_shootAction;
 
-
-
-        public Bounds Bounds => collider2d.bounds;
-
+        public Bounds Bounds;
         public string actionMap;
+        public float speed = 5f;
+        public float jumpForce = 500f;
+        public LayerMask layer;
 
-        void Awake()
+        private Rigidbody2D rb;
+        private InputAction m_MoveAction;
+        private InputAction m_JumpAction;
+        internal Animator animator;
+
+        void Start()
         {
+            rb = GetComponent<Rigidbody2D>();
             health = GetComponent<Health>();
-            audioSource = GetComponent<AudioSource>();
-            collider2d = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+            collider2d = GetComponent<Collider2D>();
+            Bounds = collider2d.bounds;
 
             m_MoveAction = InputSystem.actions.FindAction(actionMap + "/Move");
-            m_JumpAction = InputSystem.actions.FindAction(actionMap + "/Jump");
-            m_shootAction = InputSystem.actions.FindAction(actionMap + "/Attack");
-
             m_MoveAction.Enable();
+
+            m_JumpAction = InputSystem.actions.FindAction(actionMap + "/Jump");
             m_JumpAction.Enable();
+
+            m_shootAction = InputSystem.actions.FindAction(actionMap + "/Attack");
+            m_shootAction.Enable();
         }
 
-        protected override void Update()
+        void Update()
         {
             if (controlEnabled)
             {
-                move.x = m_MoveAction.ReadValue<Vector2>().x;
-                if (jumpState == JumpState.Grounded && m_JumpAction.WasPressedThisFrame())
-                    jumpState = JumpState.PrepareToJump;
-                else if (m_JumpAction.WasReleasedThisFrame())
+                
+                // Movement
+                float x = m_MoveAction.ReadValue<Vector2>().x;
+                rb.AddForce(new Vector2(x * speed, 0f));
+
+                // Jumping
+                int defaultLayerMask = 1 << LayerMask.NameToLayer("Default");
+                bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, layer | defaultLayerMask);
+                Debug.DrawRay(transform.position, Vector2.down, Color.red);
+
+                Debug.Log(isGrounded);
+
+                if (m_JumpAction.WasPerformedThisFrame() && isGrounded)
                 {
-                    stopJump = true;
-                    Schedule<PlayerStopJump>().player = this;
+                    rb.AddForce(new Vector2(0f, jumpForce));
                 }
 
+                // Face the direction we're moving
+                Vector3 prevScale = transform.localScale;
+                if (Math.Abs(rb.linearVelocityX) > 0.1)
+                {
+                    transform.localScale = new Vector3(rb.linearVelocityX > 0 ? 1f : -1f, prevScale.y, prevScale.z);
+                }
+
+                // Update the animator on our whereabouts
+                animator.SetBool("grounded", isGrounded);
+                animator.SetFloat("velocityX", Math.Abs(rb.linearVelocityX));
+
+                // Shooting
                 if (m_shootAction.WasPressedThisFrame())
                 {
-                    Debug.Log("Shoot action pressed");
-
-                    Vector3 adjustedLaunchOffset = new Vector3(0f,0f,0f);
+                    Vector3 adjustedLaunchOffset;
                     Quaternion adjustedRotation;
 
-                    if (spriteRenderer.flipX)
+                    if (transform.localScale.x < 0)
                     {
                         adjustedLaunchOffset = new Vector3(-launchOffset.localPosition.x, launchOffset.localPosition.y, launchOffset.localPosition.z);
                         adjustedRotation = Quaternion.AngleAxis(0f, Vector3.forward);
@@ -109,70 +106,6 @@ namespace Platformer.Mechanics
                     Instantiate(projectilePrefab, adjustedLaunchOffset, adjustedRotation);
                 }
             }
-            else
-            {
-                move.x = 0;
-            }
-            UpdateJumpState();
-            base.Update();
-        }
-
-        void UpdateJumpState()
-        {
-            jump = false;
-            switch (jumpState)
-            {
-                case JumpState.PrepareToJump:
-                    jumpState = JumpState.Jumping;
-                    jump = true;
-                    stopJump = false;
-                    break;
-                case JumpState.Jumping:
-                    if (!IsGrounded)
-                    {
-                        Schedule<PlayerJumped>().player = this;
-                        jumpState = JumpState.InFlight;
-                    }
-                    break;
-                case JumpState.InFlight:
-                    if (IsGrounded)
-                    {
-                        Schedule<PlayerLanded>().player = this;
-                        jumpState = JumpState.Landed;
-                    }
-                    break;
-                case JumpState.Landed:
-                    jumpState = JumpState.Grounded;
-                    break;
-            }
-        }
-
-        protected override void ComputeVelocity()
-        {
-            if (jump && IsGrounded)
-            {
-                velocity.y = jumpTakeOffSpeed * model.jumpModifier;
-                jump = false;
-            }
-
-            if (move.x > 0.01f)
-                spriteRenderer.flipX = false;
-            else if (move.x < -0.01f)
-                spriteRenderer.flipX = true;
-
-            animator.SetBool("grounded", IsGrounded);
-            animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
-
-            targetVelocity = move * maxSpeed;
-        }
-
-        public enum JumpState
-        {
-            Grounded,
-            PrepareToJump,
-            Jumping,
-            InFlight,
-            Landed
         }
     }
 }
