@@ -19,6 +19,9 @@ namespace Platformer.Mechanics
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
+        public ProjectileBehaviour projectilePrefab;
+        public Transform launchOffset;
+
         /// <summary>
         /// Max horizontal speed of the player.
         /// </summary>
@@ -43,6 +46,9 @@ namespace Platformer.Mechanics
 
         private InputAction m_MoveAction;
         private InputAction m_JumpAction;
+        private InputAction m_shootAction;
+
+
 
         public Bounds Bounds => collider2d.bounds;
 
@@ -58,7 +64,8 @@ namespace Platformer.Mechanics
 
             m_MoveAction = InputSystem.actions.FindAction(actionMap + "/Move");
             m_JumpAction = InputSystem.actions.FindAction(actionMap + "/Jump");
-            
+            m_shootAction = InputSystem.actions.FindAction(actionMap + "/Attack");
+
             m_MoveAction.Enable();
             m_JumpAction.Enable();
         }
@@ -74,6 +81,11 @@ namespace Platformer.Mechanics
                 {
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
+                }
+
+                if (m_shootAction.WasPressedThisFrame())
+                {
+                    Instantiate(projectilePrefab, launchOffset.position, transform.rotation);
                 }
             }
             else
