@@ -3,14 +3,16 @@ using UnityEngine.InputSystem;
 
 public class SampleMove : MonoBehaviour
 {
+
     public string actionMap;
     public float speed;
-    public float friction;
+
     private Rigidbody2D rb;
     private InputAction m_MoveAction;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
@@ -19,10 +21,10 @@ public class SampleMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        rb.AddForce(
-            (m_MoveAction.ReadValue<Vector2>() * speed)
-        );
+        float x = m_MoveAction.ReadValue<Vector2>().x;
+        rb.AddForce(new Vector2(x * speed, 0f));
     }
+
 }
