@@ -103,9 +103,6 @@ namespace Platformer.Mechanics
                         adjustedRotation = Quaternion.AngleAxis(180f, Vector3.forward);
                     }
 
-                    
-
-                    Debug.Log($"Adjusted launch offset: {adjustedLaunchOffset}");
 
                     adjustedLaunchOffset += transform.position;
 

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4419824807194467901}
   - component: {fileID: 6125945686687148353}
   - component: {fileID: 3995518440796370687}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Bullet_07 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,6 +148,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BulletProjectileParentBlueVariant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4867914751498416196, guid: 13573a773ab05fc49b3c2ab0ce1ddeeb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -1,3 +1,5 @@
+using Platformer.Mechanics;
+using System;
 using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour
@@ -14,6 +16,10 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log($"Projectile collided with: {collision.collider.name}");
+        Debug.Log(gameObject.name);
+
+        collision.collider.GetComponent<Health>()?.Decrement();
         Destroy(gameObject); // Destroy the projectile on collision
     }
 }

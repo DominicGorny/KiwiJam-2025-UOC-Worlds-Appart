@@ -20,7 +20,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public bool IsAlive => currentHP > 0;
 
-        int currentHP;
+        public int currentHP;
 
         /// <summary>
         /// Increment the HP of the entity.
@@ -39,8 +39,7 @@ namespace Platformer.Mechanics
             currentHP = Mathf.Clamp(currentHP - 1, 0, maxHP);
             if (currentHP == 0)
             {
-                var ev = Schedule<HealthIsZero>();
-                ev.health = this;
+                Destroy(gameObject);
             }
         }
 
@@ -49,6 +48,7 @@ namespace Platformer.Mechanics
         /// </summary>
         public void Die()
         {
+
             while (currentHP > 0) Decrement();
         }
 
@@ -56,5 +56,6 @@ namespace Platformer.Mechanics
         {
             currentHP = maxHP;
         }
+
     }
 }
