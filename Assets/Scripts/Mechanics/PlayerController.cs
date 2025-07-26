@@ -46,6 +46,8 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
+        public string actionMap;
+
         void Awake()
         {
             health = GetComponent<Health>();
@@ -54,8 +56,8 @@ namespace Platformer.Mechanics
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
 
-            m_MoveAction = InputSystem.actions.FindAction("Player/Move");
-            m_JumpAction = InputSystem.actions.FindAction("Player/Jump");
+            m_MoveAction = InputSystem.actions.FindAction(actionMap + "/Move");
+            m_JumpAction = InputSystem.actions.FindAction(actionMap + "/Jump");
             
             m_MoveAction.Enable();
             m_JumpAction.Enable();

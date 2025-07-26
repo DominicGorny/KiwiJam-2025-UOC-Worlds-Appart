@@ -14,8 +14,15 @@ public class WorldPlatform : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Set collider to default enabledness
         col = GetComponent<Collider2D>();
         col.enabled = defaultActive;
+
+        //// Set tilemap to default colour
+        tilemap = GetComponent<Tilemap>();
+        tilemap.color = col.enabled ? activeColor : inactiveColor;
+
+        // Setup 'Switch Worlds' key
         m_SwitchWorld = InputSystem.actions.FindAction("Player/Interact");
         m_SwitchWorld.Enable();
     }
@@ -26,6 +33,7 @@ public class WorldPlatform : MonoBehaviour
         if (m_SwitchWorld.WasPressedThisFrame())
         {
             col.enabled = !col.enabled;
+            tilemap.color = col.enabled ? activeColor : inactiveColor;
         }
     }
 }
