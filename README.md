@@ -6,6 +6,7 @@
 - Stephen Hockey
 - Jake Dalton
 - Dominic Gorny
+- Sergey Antonets
 
 
 ## After downloading repository
