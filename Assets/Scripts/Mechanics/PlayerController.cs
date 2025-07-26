@@ -6,6 +6,7 @@ using static Platformer.Core.Simulation;
 using Platformer.Model;
 using Platformer.Core;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 namespace Platformer.Mechanics
 {
@@ -85,7 +86,30 @@ namespace Platformer.Mechanics
 
                 if (m_shootAction.WasPressedThisFrame())
                 {
-                    Instantiate(projectilePrefab, launchOffset.position, transform.rotation);
+                    Debug.Log("Shoot action pressed");
+
+                    Vector3 adjustedLaunchOffset = new Vector3(0f,0f,0f);
+                    Quaternion adjustedRotation;
+
+                    if (spriteRenderer.flipX)
+                    {
+                        adjustedLaunchOffset = new Vector3(-launchOffset.localPosition.x, launchOffset.localPosition.y, launchOffset.localPosition.z);
+                        adjustedRotation = Quaternion.AngleAxis(0f, Vector3.forward);
+
+                    }
+                    else
+                    {
+                        adjustedLaunchOffset = new Vector3(launchOffset.localPosition.x, launchOffset.localPosition.y, launchOffset.localPosition.z);
+                        adjustedRotation = Quaternion.AngleAxis(180f, Vector3.forward);
+                    }
+
+                    
+
+                    Debug.Log($"Adjusted launch offset: {adjustedLaunchOffset}");
+
+                    adjustedLaunchOffset += transform.position;
+
+                    Instantiate(projectilePrefab, adjustedLaunchOffset, adjustedRotation);
                 }
             }
             else
