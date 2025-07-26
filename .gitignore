@@ -27,6 +27,7 @@ Library/
 
 # Visual Studio cache directory
 .vs/
+.vscode/
 obj/
 
 # Gradle cache directory
