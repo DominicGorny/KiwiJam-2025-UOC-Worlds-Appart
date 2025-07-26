@@ -3,6 +3,7 @@ Temp/
 Logs/
 Build/
 Builds/
+Library/
 *.log
 
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
@@ -26,6 +27,7 @@ Builds/
 
 # Visual Studio cache directory
 .vs/
+obj/
 
 # Gradle cache directory
 .gradle/
