@@ -2,7 +2,7 @@
     "name": "InputSystem_Actions",
     "maps": [
         {
-            "name": "LeftPlayer",
+            "name": "BluePlayer",
             "id": "df70fa95-8a34-4494-b137-73ab6b9c7d37",
             "actions": [
                 {
@@ -310,6 +310,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0f27d27e-6399-45ae-bce7-dc1348c8686b",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1534dc16-a6aa-499d-9c3a-22b47347b52a",
                     "path": "<Keyboard>/1",
                     "interactions": "",
@@ -377,7 +388,7 @@
             ]
         },
         {
-            "name": "RightPlayer",
+            "name": "RedPlayer",
             "id": "abb0c821-bf00-44ee-b34e-74671d0d242c",
             "actions": [
                 {
@@ -688,6 +699,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dba9242a-e5d6-40b7-8b14-bd7f64a7d3a8",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
