@@ -1048,7 +1048,9 @@ PrefabInstance:
       propertyPath: minGroundNormalY
       value: 1.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114230831923080080, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
+    - {fileID: 1824045667, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 4356381263675797149, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
     m_AddedGameObjects: []
@@ -1065,6 +1067,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1213308521}
+    - targetCorrespondingSourceObject: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1213308522}
   m_SourcePrefab: {fileID: 100100000, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
 --- !u!1 &838423049 stripped
 GameObject:
@@ -1146,6 +1152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionMap: LeftPlayer
   speed: 5
+  jumpForce: 350
 --- !u!232 &1213308521
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -1166,6 +1173,43 @@ DistanceJoint2D:
   m_AutoConfigureDistance: 0
   m_Distance: 2
   m_MaxDistanceOnly: 1
+--- !u!70 &1213308522
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838423049}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.029698849, y: -0.10543131}
+  m_Size: {x: 0.32369363, y: 0.6355326}
+  m_Direction: 0
 --- !u!1001 &1286379803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1271,7 +1315,8 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1824045667, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 4356381263675797149, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
     m_AddedGameObjects: []
@@ -1284,6 +1329,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1286379815}
+    - targetCorrespondingSourceObject: {fileID: 1208144871472054, guid: 7d60c822c3f1b408ea7a00ecdb5e047a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1286379816}
   m_SourcePrefab: {fileID: 100100000, guid: 7d60c822c3f1b408ea7a00ecdb5e047a, type: 3}
 --- !u!1 &1286379804 stripped
 GameObject:
@@ -1324,6 +1373,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionMap: RightPlayer
   speed: 5
+  jumpForce: 350
+--- !u!70 &1286379816
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286379804}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.029698849, y: -0.10543131}
+  m_Size: {x: 0.32369363, y: 0.6355326}
+  m_Direction: 0
 --- !u!1 &1307455716
 GameObject:
   m_ObjectHideFlags: 0
