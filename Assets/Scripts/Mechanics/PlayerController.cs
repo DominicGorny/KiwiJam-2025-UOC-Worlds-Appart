@@ -65,7 +65,6 @@ namespace Platformer.Mechanics
                 bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, layer | defaultLayerMask);
                 Debug.DrawRay(transform.position, Vector2.down, Color.red);
 
-                Debug.Log(isGrounded);
 
                 if (m_JumpAction.WasPerformedThisFrame() && isGrounded)
                 {
@@ -88,6 +87,8 @@ namespace Platformer.Mechanics
                 {
                     Vector3 adjustedLaunchOffset;
                     Quaternion adjustedRotation;
+
+                    Debug.Log("Shoot");
 
                     if (transform.localScale.x < 0)
                     {

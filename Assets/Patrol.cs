@@ -1,3 +1,4 @@
+using Platformer.Mechanics;
 using UnityEngine;
 
 public class Patrol : MonoBehaviour
@@ -18,6 +19,14 @@ public class Patrol : MonoBehaviour
 
         // Start moving toward pointB
         target = pointB;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log($"Enemy collided with: {collision.collider.name}");
+        Debug.Log(gameObject.name);
+
+        collision.collider.GetComponent<Health>()?.Decrement();
     }
 
     void FixedUpdate()
