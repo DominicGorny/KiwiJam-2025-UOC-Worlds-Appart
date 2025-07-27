@@ -58,11 +58,11 @@ namespace Platformer.Mechanics
                 
                 // Movement
                 float x = m_MoveAction.ReadValue<Vector2>().x;
-                rb.AddForce(new Vector2(x * speed, 0f));
+                rb.AddForce(new Vector2(x * speed * Time.deltaTime, 0f));
 
                 // Jumping
                 int defaultLayerMask = 1 << LayerMask.NameToLayer("Default");
-                bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, layer | defaultLayerMask);
+                bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.5f, layer | defaultLayerMask);
                 Debug.DrawRay(transform.position, Vector2.down, Color.red);
 
 

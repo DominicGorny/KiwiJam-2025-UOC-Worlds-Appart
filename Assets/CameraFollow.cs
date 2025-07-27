@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
     public Transform playerA;
     public Transform playerB;
 
-    void LateUpdate()
+    void Update()
     {
         Vector3 m = (playerA.position + playerB.position) / 2f;
         //transform.position = new Vector3(m.x, m.y, transform.position.z);    
