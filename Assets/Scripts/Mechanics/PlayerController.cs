@@ -30,6 +30,7 @@ namespace Platformer.Mechanics
         private InputAction m_MoveAction;
         private InputAction m_JumpAction;
         internal Animator animator;
+        bool isGrounded;
 
         void Start()
         {
@@ -79,8 +80,8 @@ namespace Platformer.Mechanics
                 }
 
                 // Update the animator on our whereabouts
-                animator.SetBool("grounded", isGrounded);
-                animator.SetFloat("velocityX", Math.Abs(rb.linearVelocityX));
+                animator.SetBool("isGrounded", isGrounded);
+                animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
 
                 // Shooting
                 if (m_shootAction.WasPressedThisFrame())
@@ -107,5 +108,8 @@ namespace Platformer.Mechanics
                 }
             }
         }
+
+
+
     }
 }
