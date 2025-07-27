@@ -2,27 +2,37 @@ using UnityEngine;
 
 public class Patrol : MonoBehaviour
 {
-    public GameObject a;
-    public GameObject b;
+    public Vector2 pointA;       // Left patrol point
+    public Vector2 pointB;       // Right patrol point
+    public float speed = 3f;
+
     private Rigidbody2D rb;
-    private Transform current;
-    public float speed;
+    private Vector2 target;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        current = a.transform;
+
+        // Make sure gravity doesn't affect the object
+        rb.gravityScale = 0;
+
+        // Start moving toward pointB
+        target = pointB;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Vector2 point = current.position - transform.position;
-        if (current == b.transform)
+        // Calculate direction to the target on X only
+        float direction = Mathf.Sign(target.x - transform.position.x);
+
+        // Set velocity to move horizontally
+        rb.linearVelocity = new Vector2(direction * speed, 0);
+
+        // Check if close to the target (within 0.1f units)
+        if (Mathf.Abs(transform.position.x - target.x) < 0.1f)
         {
-            rb.linearVelocityX = speed;
-        } 
-        else
-        {
-            rb.linearVelocityY = -speed;
+            // Switch target to the other point
+            target = target == pointA ? pointB : pointA;
         }
     }
 }
